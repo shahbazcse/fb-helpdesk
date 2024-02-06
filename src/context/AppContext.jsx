@@ -6,6 +6,11 @@ export const AppProvider = ({ children }) => {
 
     const reducerFn = (state, action) => {
         switch (action.type) {
+            case "UPDATE_USER_SESSION":
+                return {
+                    ...state,
+                    userSession: action.payload
+                }
             case "UPDATE_INTEGRATION_STATUS":
                 return {
                     ...state,
@@ -20,6 +25,7 @@ export const AppProvider = ({ children }) => {
     }
 
     const initialState = {
+        userSession: null,
         isIntegrated: {
             status: false,
             authResponse: null
@@ -27,6 +33,7 @@ export const AppProvider = ({ children }) => {
     }
 
     const [state, dispatch] = useReducer(reducerFn, initialState);
+
     return (
         <AppContext.Provider value={{ state, dispatch }}>
             {children}

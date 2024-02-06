@@ -28,34 +28,34 @@ app.listen(PORT, () => {
 
 app.post("/signup", async (req, res) => {
   try {
-    const clientData = req.body;
-    const client = await signup(clientData);
-
+    const userData = req.body;
+    const user = await signup(userData);
+    
     res.status(201).json({
       message: "Client Registered",
-      client,
+      user,
     });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
 });
 
-async function signup(clientData) {
+async function signup(userData) {
   try {
-    const foundEmail = await Client.findOne({ email: clientData.email });
+    const foundEmail = await Client.findOne({ email: userData.email });
     if (foundEmail) {
       throw new Error("Client already registered");
     }
 
-    const hashedPassword = await bcrypt.hash(clientData.password, 10);
+    const hashedPassword = await bcrypt.hash(userData.password, 10);
 
-    const newClient = new Client({
-      name: clientData.name,
-      email: clientData.email,
+    const newUser = new Client({
+      name: userData.name,
+      email: userData.email,
       password: hashedPassword,
     });
-    const client = await newClient.save();
-    return client;
+    const user = await newUser.save();
+    return user;
   } catch (error) {
     throw error;
   }

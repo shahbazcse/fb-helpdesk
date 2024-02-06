@@ -1,8 +1,31 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { userSignup } from "../services/AuthServices";
+import { AppContext } from "..";
 
 const Signup = () => {
     const navigate = useNavigate();
+
+    const { dispatch } = useContext(AppContext);
+
+    const [form, setForm] = useState({
+        name: "",
+        email: "",
+        password: "",
+    });
+
+    const [rememberMe, setRememberMe] = useState(false);
+
+    const handleSignup = async (e) => {
+        e.preventDefault();
+
+        const response = await userSignup(form, rememberMe);
+        dispatch({ type: "UPDATE_USER_SESSION", payload: response });
+        if (response.token) {
+            navigate("/connect");
+        }
+    }
+    
     return (
         <div className="flex h-screen bg-[#1E4D91] items-center justify-center font-[raleway]">
             <div className="bg-white p-8 rounded-lg shadow-lg w-96">
@@ -15,7 +38,8 @@ const Signup = () => {
                         >
                             Name
                         </label>
-                        <input id="name" placeholder="Manoj Kumar" type="text" className="w-full border border-gray-400 p-2 rounded-md" />
+                        <input id="name" placeholder="Manoj Kumar" type="text" className="w-full border border-gray-400 p-2 rounded-md" value={form.name}
+                            onChange={(e) => setForm({ ...form, name: String(e.target.value) })} />
                     </div>
                     <div className="mb-4">
                         <label
@@ -24,7 +48,8 @@ const Signup = () => {
                         >
                             Email
                         </label>
-                        <input id="email" placeholder="manoj@richpanel.com" type="email" className="w-full border border-gray-400 p-2 rounded-md" />
+                        <input id="email" placeholder="manoj@richpanel.com" type="email" className="w-full border border-gray-400 p-2 rounded-md" value={form.email}
+                            onChange={(e) => setForm({ ...form, email: String(e.target.value) })} />
                     </div>
                     <div className="mb-4">
                         <label
@@ -33,10 +58,11 @@ const Signup = () => {
                         >
                             Password
                         </label>
-                        <input id="password" placeholder="**********" type="password" className="w-full border border-gray-400 p-2 rounded-md" />
+                        <input id="password" placeholder="**********" type="password" className="w-full border border-gray-400 p-2 rounded-md" value={form.password}
+                            onChange={(e) => setForm({ ...form, password: String(e.target.value) })} />
                     </div>
                     <div className="flex items-center mb-6">
-                        <input type="checkbox" id="remember-me" />
+                        <input type="checkbox" id="remember-me" value={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />
                         <label
                             className="ml-2 block text-sm text-gray-900"
                             htmlFor="remember-me"
@@ -45,7 +71,7 @@ const Signup = () => {
                         </label>
                     </div>
                     <div className="flex flex-col items-center">
-                        <button className="w-full bg-[#1E4D91] hover:bg-blue-900 text-white p-2 rounded-md">Sign Up</button>
+                        <button onClick={(e) => handleSignup(e)} className="w-full bg-[#1E4D91] hover:bg-blue-900 text-white p-2 rounded-md">Sign Up</button>
                         <div className="flex justify-center items-center gap-1 mt-4 text-sm text-gray-600">
                             Already have an account?{" "}
                             <div onClick={() => navigate('/login')} className="text-blue-900 hover:underline cursor-pointer" href="#">
