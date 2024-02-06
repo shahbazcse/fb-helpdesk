@@ -4,7 +4,7 @@ const sign = require("jwt-encode");
 export const userSignup = async (formData, rememberMe) => {
     try {
         const { data: user } = await axios.post(`${process.env.REACT_APP_BACKEND_API}/signup`, formData);
-        const token = sign({ _id: response.user._id }, process.env.REACT_APP_JWT_SECRET);
+        const token = sign({ _id: user._id }, process.env.REACT_APP_JWT_SECRET);
 
         const session = {
             user: {
