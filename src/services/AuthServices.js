@@ -39,17 +39,19 @@ export const userLogin = async (formData, rememberMe) => {
     }
 }
 
-export const updateClientID = async () => {
+export const updateClientID = async (email, clientID) => {
     try {
-
+        const { data: { user } } = await axios.post(`${process.env.REACT_APP_BACKEND_API}/add-client-id`, { email, clientID });
+        return user.clientID;
     } catch (e) {
         console.log("Error", e.message);
     }
 }
 
-export const updateConversations = async () => {
+export const updateConversations = async (email, conversations) => {
     try {
-
+        const { data } = await axios.post(`${process.env.REACT_APP_BACKEND_API}/update-conversations`, { email, conversations });
+        return data.conversations;
     } catch (e) {
         console.log("Error", e.message);
     }
