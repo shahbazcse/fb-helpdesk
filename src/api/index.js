@@ -7,6 +7,14 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 
+const cors = require('cors');
+const corsOptions = {
+  origin: ['http://localhost:3000', 'https://fb-helpdesk-pro.vercel.app'],
+  credentials: true,
+  optionSuccessStatus: 200
+}
+app.use(cors(corsOptions));
+
 app.get("/", (req, res) => {
   res.send("Hello, Express!");
 });
