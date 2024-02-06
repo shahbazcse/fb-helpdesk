@@ -1,6 +1,17 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react';
+import { AppContext } from "..";
+import { checkIntegration } from '../services/FBIntegration';
+import { useNavigate } from 'react-router-dom';
 
 const Connect = () => {
+    const { dispatch } = useContext(AppContext);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const response = checkIntegration();
+        dispatch({ type: "UPDATE_INTEGRATION_STATUS", payload: response });
+        if (response.status) navigate("/dashboard");
+    }, [])
     return (
         <div className="flex h-screen bg-[#1E4D91] items-center justify-center font-[raleway]">
             <div className="flex flex-col items-center justify-center gap-6 bg-white p-10 rounded-xl shadow-lg w-96">
