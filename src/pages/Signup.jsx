@@ -25,7 +25,7 @@ const Signup = () => {
             navigate("/connect");
         }
     }
-    
+
     return (
         <div className="flex h-screen bg-[#1E4D91] items-center justify-center font-[raleway]">
             <div className="bg-white p-8 rounded-lg shadow-lg w-96">
@@ -38,7 +38,7 @@ const Signup = () => {
                         >
                             Name
                         </label>
-                        <input id="name" placeholder="Manoj Kumar" type="text" className="w-full border border-gray-400 p-2 rounded-md" value={form.name}
+                        <input id="name" placeholder="John Doe" type="text" className="w-full border border-gray-400 p-2 rounded-md" value={form.name}
                             onChange={(e) => setForm({ ...form, name: String(e.target.value) })} />
                     </div>
                     <div className="mb-4">
@@ -48,7 +48,7 @@ const Signup = () => {
                         >
                             Email
                         </label>
-                        <input id="email" placeholder="manoj@richpanel.com" type="email" className="w-full border border-gray-400 p-2 rounded-md" value={form.email}
+                        <input id="email" placeholder="johndoe@email.com" type="email" className="w-full border border-gray-400 p-2 rounded-md" value={form.email}
                             onChange={(e) => setForm({ ...form, email: String(e.target.value) })} />
                     </div>
                     <div className="mb-4">

@@ -43,7 +43,7 @@ const Login = () => {
                         </label>
                         <input
                             id="email"
-                            placeholder="manoj@richpanel.com"
+                            placeholder="johndoe@email.com"
                             type="email"
                             className="w-full border border-gray-400 p-2 rounded-md"
                             value={form.email}
