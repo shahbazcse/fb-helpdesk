@@ -1,9 +1,11 @@
 import axios from "axios";
 const sign = require("jwt-encode");
 
+BACKEND_API="https://fb-helpdesk-backend.vercel.app";
+
 export const userSignup = async (formData, rememberMe) => {
     try {
-        const { data: { user } } = await axios.post(`${process.env.REACT_APP_BACKEND_API}/signup`, formData);
+        const { data: { user } } = await axios.post(`${BACKEND_API}/signup`, formData);
         const token = sign({ _id: user._id }, process.env.REACT_APP_JWT_SECRET);
 
         const session = {
@@ -22,7 +24,7 @@ export const userSignup = async (formData, rememberMe) => {
 
 export const userLogin = async (formData, rememberMe) => {
     try {
-        const { data: { user } } = await axios.post(`${process.env.REACT_APP_BACKEND_API}/login`, formData);
+        const { data: { user } } = await axios.post(`${BACKEND_API}/login`, formData);
 
         const token = sign({ _id: user._id }, process.env.REACT_APP_JWT_SECRET);
         const session = {
@@ -41,7 +43,7 @@ export const userLogin = async (formData, rememberMe) => {
 
 export const updateClientID = async (email, clientID) => {
     try {
-        const { data: { user } } = await axios.post(`${process.env.REACT_APP_BACKEND_API}/add-client-id`, { email, clientID });
+        const { data: { user } } = await axios.post(`${BACKEND_API}/add-client-id`, { email, clientID });
         return user.clientID;
     } catch (e) {
         console.log("Error", e.message);
@@ -50,7 +52,7 @@ export const updateClientID = async (email, clientID) => {
 
 export const updateConversations = async (email, conversations) => {
     try {
-        const { data } = await axios.post(`${process.env.REACT_APP_BACKEND_API}/update-conversations`, { email, conversations });
+        const { data } = await axios.post(`${BACKEND_API}/update-conversations`, { email, conversations });
         return data.conversations;
     } catch (e) {
         console.log("Error", e.message);
