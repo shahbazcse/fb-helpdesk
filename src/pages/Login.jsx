@@ -14,6 +14,13 @@ const Login = () => {
     });
     const [rememberMe, setRememberMe] = useState(false);
 
+    const setTestUser = () => {
+        setForm({
+            email: "test@email.com",
+            password: "test123",
+        })
+    }
+
     const handleLogin = async () => {
         const response = await userLogin(form, rememberMe);
         dispatch({ type: "UPDATE_USER_SESSION", payload: response });
@@ -59,14 +66,19 @@ const Login = () => {
                             onChange={(e) => setForm({ ...form, password: String(e.target.value) })}
                         />
                     </div>
-                    <div className="flex items-center mb-6">
-                        <input type="checkbox" id="remember-me" value={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />
-                        <label
-                            className="ml-2 block text-sm text-gray-900"
-                            htmlFor="remember-me"
-                        >
-                            Remember Me
-                        </label>
+                    <div className="flex justify-between items-center mb-6">
+                        <div className="flex justify-between items-center gap-0.5">
+                            <input type="checkbox" id="remember-me" value={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />
+                            <label
+                                className="ml-2 block text-sm text-gray-900"
+                                htmlFor="remember-me"
+                            >
+                                Remember Me
+                            </label>
+                        </div>
+                        <div onClick={setTestUser} className="text-xs bg-orange-100 hover:bg-orange-200 cursor-pointer rounded-md px-1 py-0.5">
+                            Test Credentials
+                        </div>
                     </div>
                     <div className="flex flex-col items-center">
                         <button onClick={handleLogin} className="w-full bg-[#1E4D91] hover:bg-blue-900 text-white p-2 rounded-md">
