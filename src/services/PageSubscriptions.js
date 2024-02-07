@@ -2,11 +2,10 @@ const subscribePage = (page_id, page_access_token) => {
     const response = new Promise((resolve, reject) => {
         window.FB.api(
             `/${page_id}/subscribed_apps`,
-            'POST',
+            "POST",
             {
                 subscribed_fields: [
-                    'messages',
-                    // any other webhook event: https://developers.facebook.com/docs/messenger-platform/webhook/#events
+                    "messages",
                 ],
                 access_token: page_access_token,
             },
@@ -15,30 +14,33 @@ const subscribePage = (page_id, page_access_token) => {
                     resolve({
                         page_access_token,
                         page_id,
-                        response
-                    })
+                        response,
+                    });
                 } else {
                     reject(response.error.message);
                 }
-            },
-        )
-    })
+            }
+        );
+    });
     return response;
-}
+};
 
 export const getPage = () => {
     let page_access_token = null;
     let page_id = null;
 
     const response = new Promise((resolve, reject) => {
-        window.FB.api('/me/accounts', function (response) {
+        window.FB.api("/me/accounts", function (response) {
             if (response && !response.error) {
-                page_access_token = response.data[0].access_token
-                page_id = response.data[0].id
-                localStorage.setItem("businessDetails", JSON.stringify({
-                    businessName: response.data[0].name,
-                    category: response.data[0].category
-                }))
+                page_access_token = response.data[0].access_token;
+                page_id = response.data[0].id;
+                localStorage.setItem(
+                    "businessDetails",
+                    JSON.stringify({
+                        businessName: response.data[0].name,
+                        category: response.data[0].category,
+                    })
+                );
                 subscribePage(page_id, page_access_token)
                     .then((res) => {
                         resolve({
@@ -46,17 +48,17 @@ export const getPage = () => {
                             page_id,
                             pageResponse: res.response,
                             businessName: response.data[0].name,
-                            category: response.data[0].category
+                            category: response.data[0].category,
                         });
                     })
                     .catch((e) => {
                         console.log(e);
-                    })
+                    });
             } else {
-                console.error(response.error)
+                console.error(response.error);
             }
         });
     });
 
     return response;
-}
+};

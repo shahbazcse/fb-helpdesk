@@ -3,42 +3,41 @@ import { createContext, useReducer } from "react";
 export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
-
     const reducerFn = (state, action) => {
         switch (action.type) {
             case "UPDATE_USER_SESSION":
                 return {
                     ...state,
-                    userSession: action.payload
-                }
+                    userSession: action.payload,
+                };
             case "UPDATE_CLIENT_ID":
                 return {
                     ...state,
-                    clientID: action.payload
-                }
+                    clientID: action.payload,
+                };
             case "UPDATE_BUSINESS":
                 return {
                     ...state,
-                    businessData: action.payload
-                }
+                    businessData: action.payload,
+                };
             case "UPDATE_CONVERSATIONS":
                 return {
                     ...state,
-                    conversations: action.payload
-                }
+                    conversations: action.payload,
+                };
             case "UPDATE_INTEGRATION_STATUS":
                 return {
                     ...state,
                     isIntegrated: {
                         status: action.payload.status,
-                        authResponse: action.payload.authResponse
+                        authResponse: action.payload.authResponse,
                     },
-                    clientID: action.payload.authResponse.userID
-                }
+                    clientID: action.payload.authResponse.userID,
+                };
             default:
-                return state
+                return state;
         }
-    }
+    };
 
     const initialState = {
         userSession: null,
@@ -47,9 +46,9 @@ export const AppProvider = ({ children }) => {
         conversations: [],
         isIntegrated: {
             status: false,
-            authResponse: null
+            authResponse: null,
         },
-    }
+    };
 
     const [state, dispatch] = useReducer(reducerFn, initialState);
 
@@ -57,5 +56,5 @@ export const AppProvider = ({ children }) => {
         <AppContext.Provider value={{ state, dispatch }}>
             {children}
         </AppContext.Provider>
-    )
-}
+    );
+};

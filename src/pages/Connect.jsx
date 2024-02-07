@@ -44,7 +44,7 @@ const Connect = () => {
     const userLogout = () => {
         localStorage.clear("session");
         navigate("/login");
-    }
+    };
 
     useEffect(() => {
         const clientID = JSON.parse(localStorage.getItem("clientID"));
@@ -60,22 +60,6 @@ const Connect = () => {
                 <h1 className="text-md font-bold text-center mb-4">
                     Facebook Page Integration
                 </h1>
-                {/* <div
-                    className="fb-login-button"
-                    data-width=""
-                    data-size=""
-                    data-button-type=""
-                    data-layout=""
-                    data-auto-logout-link="false"
-                    data-use-continue-as="false"
-                >
-                    <button
-                        onClick={connectFB}
-                        className="w-full bg-[#1E4D91] hover:bg-blue-900 text-white p-2 rounded-md"
-                    >
-                        Connect Page
-                    </button>
-                </div> */}
                 <button
                     onClick={connectFB}
                     className="w-full bg-[#1E4D91] hover:bg-blue-900 text-white p-2 rounded-md"

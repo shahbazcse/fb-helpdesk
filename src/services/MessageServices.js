@@ -53,4 +53,4 @@ export const sendMessage = (page_access_token, page_id, PSID, messageText) => {
 
 export const getAllConversations = async () => {
     return conversations;
-}
+};
