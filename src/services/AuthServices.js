@@ -1,7 +1,7 @@
 import axios from "axios";
 const sign = require("jwt-encode");
 
-const BACKEND_API="https://fb-helpdesk-backend.vercel.app";
+const BACKEND_API = "https://fb-helpdesk-backend.vercel.app";
 
 export const userSignup = async (formData, rememberMe) => {
     try {
@@ -11,7 +11,8 @@ export const userSignup = async (formData, rememberMe) => {
         const session = {
             user: {
                 name: user.name,
-                email: user.email
+                email: user.email,
+                clientID: null
             },
             token
         };
@@ -30,12 +31,22 @@ export const userLogin = async (formData, rememberMe) => {
         const session = {
             user: {
                 name: user.name,
-                email: user.email
+                email: user.email,
+                clientID: null
             },
             token
         };
         if (rememberMe) localStorage.setItem("session", JSON.stringify(session));
         return session;
+    } catch (e) {
+        console.log("Error", e.message);
+    }
+}
+
+export const getUser = async (email) => {
+    try {
+        const { data: { user } } = await axios.get(`${BACKEND_API}/get-user`, { email });
+        return user.clientID;
     } catch (e) {
         console.log("Error", e.message);
     }

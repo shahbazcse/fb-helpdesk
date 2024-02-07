@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { updateConversations } from '../services/AuthServices';
 import { AppContext } from '..';
@@ -6,11 +6,21 @@ import { AppContext } from '..';
 const Dashboard = () => {
     const navigate = useNavigate();
     const { state, dispatch } = useContext(AppContext);
-    const pageType = "Amazon Business";
+
+    const [business, setBusiness] = useState({
+        businessName: "",
+        category: ""
+    })
 
     const disconnectFB = async () => {
-        // diconnect from FB API
+        window.FB.getLoginStatus(function (response) {
+            window.FB.logout(function (response) {
+            });
+        });
+        localStorage.removeItem("clientID");
+        localStorage.removeItem("businessDetails");
         dispatch({ type: "UPDATE_CLIENT_ID", payload: null });
+        dispatch({ type: "UPDATE_BUSINESS", payload: null });
         dispatch({ type: "UPDATE_CONVERSATIONS", payload: [] });
         navigate("/connect");
     }
@@ -25,12 +35,21 @@ const Dashboard = () => {
         }
     }
 
+    useEffect(() => {
+        const businessData = JSON.parse(localStorage.getItem("businessDetails"));
+        if (businessData) {
+            dispatch({ type: "UPDATE_BUSINESS", businessData });
+        }
+        setBusiness(businessData);
+    }, [])
+
     return (
         <div className="flex h-screen bg-[#1E4D91] items-center justify-center font-[raleway]">
             <div className="flex flex-col items-center justify-center gap-8 bg-white p-10 rounded-xl shadow-lg w-96">
-                <div>
-                    <h1 className="text-md font-bold text-center mb-4">Facebook Page Integration</h1>
-                    <h2>Integrated Page: <span className='font-[poppins] font-bold tracking-wide'>{pageType}</span></h2>
+                <div className='tracking-wide'>
+                    <h1 className="text-xl font-bold text-center mb-4">Facebook Page Integration</h1>
+                    <div>Name: <span className='font-[poppins] font-bold tracking-wide'>{business.businessName}</span></div>
+                    <div className='font-[poppins] tracking-wide text-sm mt-1 text-gray-600'>Category: <span className='text-black'>{business.category}</span></div>
                 </div>
                 <div className='flex flex-col items-center justify-center gap-4 w-full'>
                     <button onClick={disconnectFB} className="w-full bg-red-700 hover:bg-red-800 text-white p-2 rounded-md">

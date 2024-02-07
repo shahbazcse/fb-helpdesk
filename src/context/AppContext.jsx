@@ -16,6 +16,11 @@ export const AppProvider = ({ children }) => {
                     ...state,
                     clientID: action.payload
                 }
+            case "UPDATE_BUSINESS":
+                return {
+                    ...state,
+                    businessData: action.payload
+                }
             case "UPDATE_CONVERSATIONS":
                 return {
                     ...state,
@@ -27,7 +32,8 @@ export const AppProvider = ({ children }) => {
                     isIntegrated: {
                         status: action.payload.status,
                         authResponse: action.payload.authResponse
-                    }
+                    },
+                    clientID: action.payload.authResponse.userID
                 }
             default:
                 return state
@@ -37,6 +43,7 @@ export const AppProvider = ({ children }) => {
     const initialState = {
         userSession: null,
         clientID: null,
+        businessData: null,
         conversations: [],
         isIntegrated: {
             status: false,
@@ -45,8 +52,6 @@ export const AppProvider = ({ children }) => {
     }
 
     const [state, dispatch] = useReducer(reducerFn, initialState);
-
-    console.log(state);
 
     return (
         <AppContext.Provider value={{ state, dispatch }}>
