@@ -2,6 +2,8 @@ import axios from "axios";
 
 const MESSAGE_API = "https://graph.facebook.com/v19.0/";
 
+let conversations = [];
+
 export const getConversationList = async (page_access_token, page_id) => {
     const response =
         await axios.get(`${MESSAGE_API}/${page_id}/conversations?platform=MESSENGER
@@ -49,3 +51,6 @@ export const sendMessage = (page_access_token, page_id, PSID, messageText) => {
     );
 };
 
+export const getAllConversations = async () => {
+    return conversations;
+}

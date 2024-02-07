@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { updateConversations } from '../services/AuthServices';
 import { AppContext } from '..';
+import { getAllConversations } from '../services/MessageServices';
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -26,8 +27,7 @@ const Dashboard = () => {
     }
 
     const fetchConversations = async () => {
-        // GET real messages from FB API
-        const conversations = [{ user: "U101", message: "Hello World" }];
+        const conversations = await getAllConversations();
         const response = await updateConversations(state.userSession.user.email, conversations);
         dispatch({ type: "UPDATE_CONVERSATIONS", payload: response });
         if (response.constructor === Array) {
@@ -36,12 +36,14 @@ const Dashboard = () => {
     }
 
     useEffect(() => {
-        const businessData = JSON.parse(localStorage.getItem("businessDetails"));
-        if (businessData) {
-            dispatch({ type: "UPDATE_BUSINESS", businessData });
-        }
-        setBusiness(businessData);
-    }, [])
+        setTimeout(() => {
+            const businessData = JSON.parse(localStorage.getItem("businessDetails"));
+            if (businessData) {
+                dispatch({ type: "UPDATE_BUSINESS", businessData });
+            }
+            setBusiness(businessData);
+        }, 1500)
+    }, []);
 
     return (
         <div className="flex h-screen bg-[#1E4D91] items-center justify-center font-[raleway]">
