@@ -42,7 +42,7 @@ const Dashboard = () => {
                 dispatch({ type: "UPDATE_BUSINESS", businessData });
             }
             setBusiness(businessData);
-        }, 1500)
+        }, 200)
     }, []);
 
     return (
