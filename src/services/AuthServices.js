@@ -1,7 +1,7 @@
 import axios from "axios";
 const sign = require("jwt-encode");
 
-BACKEND_API="https://fb-helpdesk-backend.vercel.app";
+const BACKEND_API="https://fb-helpdesk-backend.vercel.app";
 
 export const userSignup = async (formData, rememberMe) => {
     try {
