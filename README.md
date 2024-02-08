@@ -1,70 +1,50 @@
-# Getting Started with Create React App
+<h1 align="center">Facebook Helpdesk App</br><sub align="center">Manage Your Business Pages</sub></h1>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#### Live App: https://fb-helpdesk-pro.vercel.app
 
-## Available Scripts
+## About Facebook Helpdesk App
 
-In the project directory, you can run:
+Facebook Helpdesk App is an innovative business page management application designed to streamline the process of providing customer support and chat system for businesses. With its user-friendly interface and comprehensive features, Facebook Helpdesk App makes it easy to manage and resolve customers queries.
 
-### `npm start`
+### Key Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+#### Facebook Page Integration
+Facebook Helpdesk App allows client to login and create a new account on the platform with ease. The platform lets client integrate their business page with their helpdesk account.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+#### Chat Messaging System
+One of the standout features of Facebook Helpdesk App is its conversation management. Client can view, receive and reply to customer messages coming directly from their Facebook Messenger account. Client can also get customer details.
 
-### `npm test`
+## Getting Started
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+To run Facebook Helpdesk App locally, follow these steps:
 
-### `npm run build`
+1. Clone this repository: git clone [https://github.com/shahbazcse/fb-helpdesk](https://github.com/shahbazcse/fb-helpdesk)
+2. Install the dependencies: npm install
+3. Start the development server: npm start
+4. Open your web browser and visit: http://localhost:3000
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Prerequisites
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Before you begin, make sure you have the following prerequisites installed on your system:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+• **Node.js and npm**: You can download and install Node.js and npm from nodejs.org.
 
-### `npm run eject`
+• **Git**: You'll need Git to clone the project repository. You can download it from git-scm.com.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Contributing
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Contributions are welcome! If you would like to enhance or add new features to Facebook Helpdesk App, please follow these steps:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. Fork the repository
+2. Create a new branch: git checkout -b feature/your-feature-name
+3. Make your changes
+4. Commit your changes: git commit -m 'Add your commit message'
+5. Push to the branch: git push origin feature/your-feature-name
+6. Open a pull request
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## License
 
-## Learn More
+This project is licensed under the MIT License - see the [LICENSE](https://opensource.org/license/mit/) file for details.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Contact
+If you have any questions or suggestions regarding Facebook Helpdesk App, please feel free to reach out at cseshahbaz@gmail.com
