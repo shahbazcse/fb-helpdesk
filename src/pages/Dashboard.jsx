@@ -8,11 +8,6 @@ const Dashboard = () => {
     const navigate = useNavigate();
     const { state, dispatch } = useContext(AppContext);
 
-    const [business, setBusiness] = useState({
-        businessName: "",
-        category: "",
-    });
-
     const disconnectFB = async () => {
         window.FB.getLoginStatus(function (response) {
             window.FB.logout(function (response) { });
@@ -37,15 +32,7 @@ const Dashboard = () => {
         }
     };
 
-    useEffect(() => {
-        setTimeout(() => {
-            const businessData = JSON.parse(localStorage.getItem("businessDetails"));
-            if (businessData) {
-                dispatch({ type: "UPDATE_BUSINESS", businessData });
-            }
-            setBusiness(businessData);
-        }, 200);
-    }, []);
+    const business = JSON.parse(localStorage.getItem("businessDetails"));
 
     return (
         <div className="flex h-screen bg-[#1E4D91] items-center justify-center font-[raleway]">
