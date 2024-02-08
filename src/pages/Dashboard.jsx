@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { updateConversations } from "../services/AuthServices";
 import { AppContext } from "..";
@@ -32,8 +32,6 @@ const Dashboard = () => {
         }
     };
 
-    const business = JSON.parse(localStorage.getItem("businessDetails"));
-
     return (
         <div className="flex h-screen bg-[#1E4D91] items-center justify-center font-[raleway]">
             <div className="flex flex-col items-center justify-center gap-8 bg-white p-10 rounded-xl shadow-lg w-96">
@@ -44,11 +42,11 @@ const Dashboard = () => {
                     <div>
                         Name:{" "}
                         <span className="font-[poppins] font-bold tracking-wide">
-                            {business.businessName}
+                            {state.businessData?.businessName}
                         </span>
                     </div>
                     <div className="font-[poppins] tracking-wide text-sm mt-1 text-gray-600">
-                        Category: <span className="text-black">{business.category}</span>
+                        Category: <span className="text-black">{state.businessData?.category}</span>
                     </div>
                 </div>
                 <div className="flex flex-col items-center justify-center gap-4 w-full">

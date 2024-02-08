@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
 
 export const AppContext = createContext();
 
@@ -42,7 +42,10 @@ export const AppProvider = ({ children }) => {
     const initialState = {
         userSession: null,
         clientID: null,
-        businessData: null,
+        businessData: {
+            businessName: "",
+            category: ""
+        },
         conversations: [],
         isIntegrated: {
             status: false,
@@ -50,7 +53,16 @@ export const AppProvider = ({ children }) => {
         },
     };
 
+    const setDefault = () => {
+        const business = JSON.parse(localStorage.getItem("businessDetails"));
+        dispatch({ type: "UPDATE_BUSINESS", payload: business })
+    }
+
     const [state, dispatch] = useReducer(reducerFn, initialState);
+
+    useEffect(() => {
+        setDefault();
+    }, [])
 
     return (
         <AppContext.Provider value={{ state, dispatch }}>
