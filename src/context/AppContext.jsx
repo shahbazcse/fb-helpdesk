@@ -34,6 +34,11 @@ export const AppProvider = ({ children }) => {
                     },
                     clientID: action.payload.authResponse.userID,
                 };
+            case "SET_LOADING":
+                return {
+                    ...state,
+                    loading: action.payload
+                }
             default:
                 return state;
         }
@@ -51,6 +56,7 @@ export const AppProvider = ({ children }) => {
             status: false,
             authResponse: null,
         },
+        loading: false
     };
 
     const setDefault = () => {

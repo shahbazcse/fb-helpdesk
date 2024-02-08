@@ -1,13 +1,16 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "..";
 import { useNavigate } from "react-router-dom";
 import { updateClientID } from "../services/AuthServices";
 import { getPage } from "../services/PageSubscriptions";
 import { getConversationList } from "../services/MessageServices";
+import { TailSpin, ThreeDots } from "react-loader-spinner";
 
 const Connect = () => {
     const { state, dispatch } = useContext(AppContext);
     const navigate = useNavigate();
+
+    const [openDialog, setOpenDialog] = useState(false)
 
     const processResponse = async (response) => {
         dispatch({ type: "UPDATE_INTEGRATION_STATUS", payload: response });
@@ -17,33 +20,43 @@ const Connect = () => {
         );
         dispatch({ type: "UPDATE_CLIENT_ID", payload: clientID });
         localStorage.setItem("clientID", JSON.stringify(clientID));
+        setOpenDialog(false);
         if (clientID) {
             navigate("/dashboard");
         }
     };
 
     const connectFB = () => {
-        window.FB.login(
-            function (response) {
-                if (response.status === "connected") {
-                    getPage()
-                        .then((res) => {
-                            dispatch({ type: "UPDATE_BUSINESS", payload: res });
-                            // getConversationList(res.page_access_token, res.page_id);
-                        })
-                        .catch((e) => {
-                            console.log(e);
-                        });
-                    processResponse(response);
-                }
-            },
-            { scope: "pages_show_list" }
-        );
+        setOpenDialog(true);
+
+        setTimeout(() => {
+            window.FB.login(
+                function (response) {
+                    if (response.status === "connected") {
+                        getPage()
+                            .then((res) => {
+                                dispatch({ type: "UPDATE_BUSINESS", payload: res });
+                                // getConversationList(res.page_access_token, res.page_id);
+                            })
+                            .catch((e) => {
+                                console.log(e);
+                            });
+                        processResponse(response);
+                    }
+                },
+                { scope: "pages_show_list" }
+            );
+        }, 1000)
+
     };
 
     const userLogout = () => {
+        dispatch({ type: "SET_LOADING", payload: true });
         localStorage.clear("session");
-        navigate("/login");
+        setTimeout(() => {
+            dispatch({ type: "SET_LOADING", payload: false });
+            navigate("/login");
+        }, 1000)
     };
 
     useEffect(() => {
@@ -62,15 +75,28 @@ const Connect = () => {
                 </h1>
                 <button
                     onClick={connectFB}
-                    className="w-full bg-[#1E4D91] hover:bg-blue-900 text-white p-2 rounded-md"
+                    className="flex justify-center items-center w-full bg-[#1E4D91] hover:bg-blue-900 text-white p-3 rounded-md"
                 >
-                    Connect Page
+                    {openDialog ? (<ThreeDots visible={true}
+                        height="24"
+                        width="24"
+                        color="#FFFFFF"
+                        ariaLabel="tail-spin-loading"
+                        radius="1"
+                        wrapperClass="" />) : "Connect Page"}
                 </button>
                 <button
+                    disabled={state.loading}
                     onClick={userLogout}
-                    className="w-full bg-red-500 hover:bg-red-600 text-white p-2 rounded-md"
+                    className="flex justify-center items-center w-full bg-red-500 hover:bg-red-600 text-white p-3 rounded-md"
                 >
-                    Logout
+                    {state.loading ? (<TailSpin visible={true}
+                        height="24"
+                        width="24"
+                        color="#FFFFFF"
+                        ariaLabel="tail-spin-loading"
+                        radius="1"
+                        wrapperClass="" />) : "Logout"}
                 </button>
             </div>
         </div>

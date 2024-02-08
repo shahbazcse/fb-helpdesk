@@ -2,11 +2,12 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "..";
 import { userLogin } from "../services/AuthServices";
+import { TailSpin } from "react-loader-spinner";
 
 const Login = () => {
     const navigate = useNavigate();
 
-    const { dispatch } = useContext(AppContext);
+    const { state, dispatch } = useContext(AppContext);
 
     const [form, setForm] = useState({
         email: "",
@@ -22,8 +23,10 @@ const Login = () => {
     };
 
     const handleLogin = async () => {
+        dispatch({ type: "SET_LOADING", payload: true });
         const response = await userLogin(form, rememberMe);
         dispatch({ type: "UPDATE_USER_SESSION", payload: response });
+        dispatch({ type: "SET_LOADING", payload: false });
         if (response.token) {
             navigate("/connect");
         }
@@ -96,10 +99,18 @@ const Login = () => {
                     </div>
                     <div className="flex flex-col items-center">
                         <button
+                            disabled={state.loading}
                             onClick={handleLogin}
-                            className="w-full bg-[#1E4D91] hover:bg-blue-900 text-white p-2 rounded-md"
+                            className="flex justify-center items-center w-full bg-[#1E4D91] hover:bg-blue-900 text-white p-3 rounded-md"
                         >
-                            Login
+                            {state.loading ? (<TailSpin visible={true}
+                                height="24"
+                                width="24"
+                                color="#FFFFFF"
+                                ariaLabel="tail-spin-loading"
+                                radius="1"
+                                wrapperClass="" />) : "Login"}
+
                         </button>
                         <div className="flex justify-center items-center gap-1 mt-4 text-sm text-gray-600">
                             New to Helpdesk?{" "}
