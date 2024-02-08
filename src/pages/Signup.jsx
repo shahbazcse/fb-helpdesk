@@ -43,7 +43,7 @@ const Signup = () => {
                         </label>
                         <input
                             id="name"
-                            placeholder="John Doe"
+                            placeholder="Manoj Kumar"
                             type="text"
                             className="w-full border border-gray-400 p-2 rounded-md"
                             value={form.name}
@@ -61,7 +61,7 @@ const Signup = () => {
                         </label>
                         <input
                             id="email"
-                            placeholder="johndoe@email.com"
+                            placeholder="manoj@richpanel.com"
                             type="email"
                             className="w-full border border-gray-400 p-2 rounded-md"
                             value={form.email}
