@@ -44,7 +44,7 @@ const Dashboard = () => {
                 dispatch({ type: "UPDATE_BUSINESS", businessData });
             }
             setBusiness(businessData);
-        }, 200);
+        }, 500);
     }, []);
 
     return (
