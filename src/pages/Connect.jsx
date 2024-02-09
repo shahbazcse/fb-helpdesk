@@ -33,8 +33,6 @@ const Connect = () => {
             type: "UPDATE_CONVERSATIONS",
             payload: response
         });
-        // const PSID = response[0].participants.data[0].id;
-        // sendMessage(state.pageData.page_access_token, state.pageData.page_id, PSID, "Hello sire, how are you?");
     }
 
     const connectFB = () => {

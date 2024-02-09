@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { AvatarImage, AvatarFallback, Avatar } from "../ui/avatar";
 import { ScrollArea } from "../ui/scroll-area";
 import { Input } from "../ui/input";
 import { AppContext } from '../../context/AppContext';
 import { getInitials } from '../../utils/utils';
+import { sendMessage } from '../../services/MessageServices';
 
 const MessageLabel = ({ text, senderProfile }) => {
 
@@ -34,10 +35,20 @@ const MessageLabel = ({ text, senderProfile }) => {
 const MessageArea = () => {
     const { state, dispatch } = useContext(AppContext);
 
+    const [reply, setReply] = useState("");
+
     const conversation = state.conversations?.find(({ id }) => id === state.currentConversation);
 
     const messages = conversation?.messages.data;
     const senderProfile = state.conversations?.length > 0 && state.conversations[0]?.participants?.data[0];
+    const PSID = senderProfile.id;
+
+    const handleSendMessage = (e) => {
+        if (e.key === 'Enter') {
+            sendMessage(state.pageData.page_access_token, state.pageData.page_id, PSID, reply);
+            setReply("");
+        }
+    }
 
     return (
         <main className="w-2/4 bg-white border-r">
@@ -53,7 +64,7 @@ const MessageArea = () => {
                     }
                 </ScrollArea>
                 <div className="p-4 bg-gray-100">
-                    <Input placeholder={`Message ${senderProfile?.name}`} />
+                    <Input placeholder={`Message ${senderProfile?.name}`} value={reply} onChange={(e) => setReply(e.target.value)} onKeyUp={handleSendMessage} />
                 </div>
             </div>
         </main>

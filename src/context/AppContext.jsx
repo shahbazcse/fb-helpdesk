@@ -85,6 +85,8 @@ export const AppProvider = ({ children }) => {
         setDefault();
     }, [])
 
+    console.log(state);
+
     return (
         <AppContext.Provider value={{ state, dispatch }}>
             {children}
