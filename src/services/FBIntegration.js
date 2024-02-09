@@ -1,7 +1,6 @@
 export const checkIntegration = () => {
     const response = () => {
         window.FB.getLoginStatus((response) => {
-            console.log(response);
             return response.json();
         });
     };
