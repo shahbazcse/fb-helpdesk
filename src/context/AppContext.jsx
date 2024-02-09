@@ -30,6 +30,11 @@ export const AppProvider = ({ children }) => {
                     ...state,
                     pageData: action.payload,
                 };
+            case "CURRENT_CONVERSATION":
+                return {
+                    ...state,
+                    currentConversation: action.payload
+                }
             case "UPDATE_INTEGRATION_STATUS":
                 return {
                     ...state,
@@ -61,6 +66,7 @@ export const AppProvider = ({ children }) => {
             page_access_token: "",
         },
         conversations: [],
+        currentConversation: [],
         isIntegrated: {
             status: false,
             authResponse: null,
@@ -78,8 +84,6 @@ export const AppProvider = ({ children }) => {
     useEffect(() => {
         setDefault();
     }, [])
-
-    console.log(state);
 
     return (
         <AppContext.Provider value={{ state, dispatch }}>

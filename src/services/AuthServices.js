@@ -49,10 +49,8 @@ export const userLogin = async (formData, rememberMe) => {
 
 export const getUser = async (email) => {
     try {
-        const {
-            data: { user },
-        } = await axios.get(`${BACKEND_API}/get-user`, { email });
-        return user.clientID;
+        const response = await axios.post(`${BACKEND_API}/get-user`, { email });
+        return response.data.user;
     } catch (e) {
         console.log("Error", e.message);
     }

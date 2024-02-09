@@ -1,8 +1,6 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { updateConversations } from "../services/AuthServices";
 import { AppContext } from "..";
-import { getAllConversations } from "../services/MessageServices";
 import { TailSpin } from "react-loader-spinner";
 
 const Dashboard = () => {
@@ -26,15 +24,7 @@ const Dashboard = () => {
     };
 
     const fetchConversations = async () => {
-        const conversations = await getAllConversations();
-        const response = await updateConversations(
-            state.userSession.user.email,
-            conversations
-        );
-        dispatch({ type: "UPDATE_CONVERSATIONS", payload: response });
-        if (response.constructor === Array) {
-            navigate("/conversations");
-        }
+        navigate("/conversations");
     };
 
     return (

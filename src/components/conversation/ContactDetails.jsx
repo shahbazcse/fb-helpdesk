@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { AvatarImage, AvatarFallback, Avatar } from "../ui/avatar";
 import { Button } from "../ui/button";
 
 import { LiaPhoneAltSolid } from "react-icons/lia";
 import { IoMdContact } from "react-icons/io";
+import { AppContext } from '../../context/AppContext';
+import { getInitials, getFirstName, getLastName } from '../../utils/utils';
 
 const ContactDetails = () => {
+    const { state } = useContext(AppContext);
+    const senderProfile = state.conversations?.length > 0 && state.conversations[0]?.participants?.data[0];
     return (
         <aside className="w-1/4 bg-gray-200">
             <div className="flex flex-col items-center px-4 py-8 border-b bg-white">
@@ -15,10 +19,10 @@ const ContactDetails = () => {
                         alt="Amit RG"
                         src="/placeholder.svg?height=80&width=80"
                     />
-                    <AvatarFallback>AR</AvatarFallback>
+                    <AvatarFallback>{getInitials(senderProfile?.name || "")}</AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col justify-center items-center">
-                    <div className="text-lg font-semibold mt-4">Amit RG</div>
+                    <div className="text-lg font-semibold mt-4">{senderProfile?.name}</div>
                     <div className="flex justify-center items-center gap-1.5">
                         <div className="p-1 bg-gray-500 rounded-full"></div>
                         <div className="text-sm text-gray-500">Offline</div>
@@ -41,15 +45,15 @@ const ContactDetails = () => {
                 </h2>
                 <div className="flex justify-between items-center gap-1 flex-wrap mt-2">
                     <div className="text-sm text-gray-500">Email</div>
-                    <div className="text-sm text-gray-700">amit@richpanel.com</div>
+                    <div className="text-sm text-gray-700">{getFirstName(senderProfile?.name || "").toLowerCase()}@gmail.com</div>
                 </div>
                 <div className="flex justify-between items-center gap-1 flex-wrap mt-2">
                     <div className="text-sm text-gray-500">First Name</div>
-                    <div className="text-sm text-gray-700">Amit</div>
+                    <div className="text-sm text-gray-700">{getFirstName(senderProfile?.name || "")}</div>
                 </div>
                 <div className="flex justify-between items-center gap-1 flex-wrap mt-2">
                     <div className="text-sm text-gray-500">Last Name</div>
-                    <div className="text-sm text-gray-700">RG</div>
+                    <div className="text-sm text-gray-700">{getLastName(senderProfile?.name || "")}</div>
                 </div>
                 <div className="mt-4 text-[#1E4D91] cursor-pointer hover:underline">
                     View more details

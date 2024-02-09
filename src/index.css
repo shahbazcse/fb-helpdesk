@@ -39,3 +39,11 @@
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   object-fit: cover;
 }
+
+.avatar_badge div {
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2.5px solid #ffffff;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  object-fit: cover;
+}
