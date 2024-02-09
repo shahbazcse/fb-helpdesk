@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "..";
 import { useNavigate } from "react-router-dom";
-import { updateClientID } from "../services/AuthServices";
-import { getPage } from "../services/PageSubscriptions";
-import { getConversationList } from "../services/MessageServices";
+import { updateClientID, updateConversations } from "../services/AuthServices";
+import { getPageDetails } from "../services/PageSubscriptions";
 import { TailSpin, ThreeDots } from "react-loader-spinner";
+import { getConversationList, sendMessage } from "../services/MessageServices";
 
 const Connect = () => {
     const { state, dispatch } = useContext(AppContext);
     const navigate = useNavigate();
 
-    const [openDialog, setOpenDialog] = useState(false)
+    const [openDialog, setOpenDialog] = useState(false);
 
     const processResponse = async (response) => {
         dispatch({ type: "UPDATE_INTEGRATION_STATUS", payload: response });
@@ -20,11 +20,22 @@ const Connect = () => {
         );
         dispatch({ type: "UPDATE_CLIENT_ID", payload: clientID });
         localStorage.setItem("clientID", JSON.stringify(clientID));
+
         setOpenDialog(false);
         if (clientID) {
             navigate("/dashboard");
         }
     };
+
+    const handleUpdateConversations = async (conversations) => {
+        const response = await updateConversations(state.userSession.user.email, conversations);
+        dispatch({
+            type: "UPDATE_CONVERSATIONS",
+            payload: response
+        });
+        const PSID = response[0].participants.data[0].id;
+        sendMessage(state.pageData.page_access_token, state.pageData.page_id, PSID, "Hello sire, how are you?");
+    }
 
     const connectFB = () => {
         setOpenDialog(true);
@@ -33,10 +44,30 @@ const Connect = () => {
             window.FB.login(
                 function (response) {
                     if (response.status === "connected") {
-                        getPage()
+                        getPageDetails(response.authResponse.accessToken, response.authResponse.userID)
                             .then((res) => {
-                                dispatch({ type: "UPDATE_BUSINESS", payload: res });
-                                // getConversationList(res.page_access_token, res.page_id);
+                                getConversationList(res.page_id, res.page_access_token)
+                                    .then((conversations) => {
+                                        handleUpdateConversations(conversations)
+                                    }).catch((e) => {
+                                        console.log(e);
+                                    })
+
+                                dispatch({
+                                    type: "UPDATE_PAGE_DATA",
+                                    payload: {
+                                        pageId: res.page_id,
+                                        page_access_token: res.page_access_token,
+                                    },
+                                });
+
+                                dispatch({
+                                    type: "UPDATE_BUSINESS",
+                                    payload: {
+                                        businessName: res.businessName,
+                                        category: res.category,
+                                    },
+                                });
                             })
                             .catch((e) => {
                                 console.log(e);
@@ -44,10 +75,9 @@ const Connect = () => {
                         processResponse(response);
                     }
                 },
-                { scope: "pages_show_list" }
+                { scope: "pages_show_list,pages_messaging" }
             );
-        }, 1000)
-
+        }, 1000);
     };
 
     const userLogout = () => {
@@ -56,7 +86,7 @@ const Connect = () => {
         setTimeout(() => {
             dispatch({ type: "SET_LOADING", payload: false });
             navigate("/login");
-        }, 1000)
+        }, 1000);
     };
 
     useEffect(() => {
@@ -77,26 +107,38 @@ const Connect = () => {
                     onClick={connectFB}
                     className="flex justify-center items-center w-full bg-[#1E4D91] hover:bg-blue-900 text-white p-3 rounded-md"
                 >
-                    {openDialog ? (<ThreeDots visible={true}
-                        height="24"
-                        width="24"
-                        color="#FFFFFF"
-                        ariaLabel="tail-spin-loading"
-                        radius="1"
-                        wrapperClass="" />) : "Connect Page"}
+                    {openDialog ? (
+                        <ThreeDots
+                            visible={true}
+                            height="24"
+                            width="24"
+                            color="#FFFFFF"
+                            ariaLabel="tail-spin-loading"
+                            radius="1"
+                            wrapperClass=""
+                        />
+                    ) : (
+                        "Connect Page"
+                    )}
                 </button>
                 <button
                     disabled={state.loading}
                     onClick={userLogout}
                     className="flex justify-center items-center w-full bg-red-500 hover:bg-red-600 text-white p-3 rounded-md"
                 >
-                    {state.loading ? (<TailSpin visible={true}
-                        height="24"
-                        width="24"
-                        color="#FFFFFF"
-                        ariaLabel="tail-spin-loading"
-                        radius="1"
-                        wrapperClass="" />) : "Logout"}
+                    {state.loading ? (
+                        <TailSpin
+                            visible={true}
+                            height="24"
+                            width="24"
+                            color="#FFFFFF"
+                            ariaLabel="tail-spin-loading"
+                            radius="1"
+                            wrapperClass=""
+                        />
+                    ) : (
+                        "Logout"
+                    )}
                 </button>
             </div>
         </div>
